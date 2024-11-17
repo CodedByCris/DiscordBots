@@ -1,5 +1,8 @@
 # fortnite_api.py
 import requests
+import os
+
+TOKEN = os.getenv('FORTNITE_TOKEN')
 
 def get_fortnite_stats(player_id):
     url = f"https://api.fortnite.com/stats/{player_id}"
