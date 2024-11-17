@@ -1,8 +1,10 @@
 import discord
 from discord.ext import commands
 import os
+import GameStats.Fortnite.fortnite_api as fn
+import GameStats.Valorant.valorant_api as valo
 from dotenv import load_dotenv
-from messages import messages  # Import the messages
+from messages import messagesStrings  # Import the messages
 
 # Load environment variables
 load_dotenv()
@@ -23,7 +25,7 @@ async def on_ready():
 @bot.command(name="stats", help="Select language for stats")
 async def stats(ctx):
     # Send a message asking the user to select a language
-    message = await ctx.send(messages["select_language"])
+    message = await ctx.send(messagesStrings["select_language"])
     # Add reactions for English and Spanish
     await message.add_reaction("🇬🇧")
     await message.add_reaction("🇪🇸")
@@ -32,33 +34,33 @@ async def handle_language_selection(reaction, user):
     # Handle the selection of language
     if reaction.emoji == "🇬🇧":
         # Send a message asking the user to select a game in English
-        message = await reaction.message.channel.send(messages["select_game_en"])
+        message = await reaction.message.channel.send(messagesStrings["select_game_en"])
         # Add reactions for Fortnite and Valorant
-        await message.add_reaction("1️⃣")
-        await message.add_reaction("2️⃣")
+        await message.add_reaction("⛏️")
+        await message.add_reaction("🔫")
     elif reaction.emoji == "🇪🇸":
         # Send a message asking the user to select a game in Spanish
-        message = await reaction.message.channel.send(messages["select_game_es"])
+        message = await reaction.message.channel.send(messagesStrings["select_game_es"])
         # Add reactions for Fortnite and Valorant
-        await message.add_reaction("1️⃣")
-        await message.add_reaction("2️⃣")
+        await message.add_reaction("⛏️")
+        await message.add_reaction("🔫")
 
 async def handle_game_selection(reaction, user):
     # Handle the selection of game
-    if reaction.emoji == "1️⃣":
-        if messages["select_game_en"] in reaction.message.content:
+    if reaction.emoji == "⛏️":
+        if messagesStrings["select_game_en"] in reaction.message.content:
             # Send a message with information about the Fortnite bot in English
-            await reaction.message.channel.send(messages["fortnite_info_en"])
-        elif messages["select_game_es"] in reaction.message.content:
+            await reaction.message.channel.send(fn.get_today_shop())
+        elif messagesStrings["select_game_es"] in reaction.message.content:
             # Send a message with information about the Fortnite bot in Spanish
-            await reaction.message.channel.send(messages["fortnite_info_es"])
-    elif reaction.emoji == "2️⃣":
-        if messages["select_game_en"] in reaction.message.content:
+            await reaction.message.channel.send(fn.get_today_shop())
+    elif reaction.emoji == "🔫":
+        if messagesStrings["select_game_en"] in reaction.message.content:
             # Send a message with information about the Valorant bot in English
-            await reaction.message.channel.send(messages["valorant_info_en"])
-        elif messages["select_game_es"] in reaction.message.content:
+            await reaction.message.channel.send(valo.get_valorant_stats(""))
+        elif messagesStrings["select_game_es"] in reaction.message.content:
             # Send a message with information about the Valorant bot in Spanish
-            await reaction.message.channel.send(messages["valorant_info_es"])
+            await reaction.message.channel.send(valo.get_valorant_stats(""))
 
 @bot.event
 async def on_reaction_add(reaction, user):
@@ -71,10 +73,10 @@ async def on_reaction_add(reaction, user):
         return
 
     # Handle language selection
-    if messages["select_language"] in reaction.message.content:
+    if messagesStrings["select_language"] in reaction.message.content:
         await handle_language_selection(reaction, user)
     # Handle game selection
-    elif messages["select_game_en"] in reaction.message.content or messages["select_game_es"] in reaction.message.content:
+    elif messagesStrings["select_game_en"] in reaction.message.content or messagesStrings["select_game_es"] in reaction.message.content:
         await handle_game_selection(reaction, user)
 
 # Run bot
