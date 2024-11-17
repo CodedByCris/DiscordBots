@@ -1,7 +1,7 @@
 # messages.py
 
 messages = {
-    "select_language": "Select language for stats:\n\n🇬🇧 English\n\n🇪🇸 Español",
+    "select_language": "Select language for stats:",
     "select_game_en": "Select game for stats:\n\n1️⃣ Fortnite\n\n2️⃣ Valorant\n",
     "select_game_es": "Selecciona el juego para estadísticas:\n\n1️⃣ Fortnite\n\n2️⃣ Valorant\n",
     "fortnite_info_en": "This is the Fortnite bot! It provides information and commands related to Fortnite.",
