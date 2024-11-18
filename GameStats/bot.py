@@ -1,14 +1,21 @@
 import discord
 from discord.ext import commands
 import os
-import GameStats.Fortnite.fortnite_api as fn
-import GameStats.Valorant.valorant_api as valo
+import Fortnite.fortnite_api as fn
+import Valorant.valorant_api as valo
+import Fortnite.fortnite_models as fn_models
 from dotenv import load_dotenv
 from messages import messagesStrings  # Import the messages
 
 # Load environment variables
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+FORTNITE_TOKEN = os.getenv('FORTNITE_TOKEN')
+VALORANT_TOKEN = os.getenv('VALORANT_TOKEN')
+
+fn.set_fortnite_token(FORTNITE_TOKEN)  # Pass the token to the fortnite_api module
+
+fn.get_fortnite_stats()
 
 # Configure bot. Intents are required to access certain events.
 intents = discord.Intents.default()
@@ -16,7 +23,6 @@ intents.message_content = True  # Enable the message content intent
 intents.reactions = True  # Enable the reactions intent
 
 bot = commands.Bot(command_prefix="!", intents=intents)
-
 @bot.event
 async def on_ready():
     # Print a message when the bot is connected to Discord
@@ -80,4 +86,4 @@ async def on_reaction_add(reaction, user):
         await handle_game_selection(reaction, user)
 
 # Run bot
-bot.run(TOKEN)
+bot.run(DISCORD_TOKEN)
