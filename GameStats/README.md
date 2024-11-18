@@ -1,0 +1,1 @@
+This bot has not been completed as the public APIs of Fortnite and Valorant are not available
