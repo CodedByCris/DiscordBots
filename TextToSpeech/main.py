@@ -37,7 +37,7 @@ async def leave(ctx):
 
 # Comando para convertir texto en voz
 @bot.command()
-async def tts(ctx, *, text: str):
+async def say(ctx, *, text: str):
     if not ctx.voice_client:
         await ctx.send("Primero necesito estar en un canal de voz. Usa `!join`.")
         return
@@ -54,9 +54,9 @@ async def tts(ctx, *, text: str):
     await ctx.send("Reproduciendo texto en voz...")
 
 # Manejar errores
-@tts.error
+@say.error
 async def tts_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Por favor, incluye el texto que quieres convertir. Ejemplo: `!tts Hola a todos`")
+        await ctx.send("Por favor, incluye el texto que quieres convertir. Ejemplo: `!say Hola a todos`")
 
 bot.run(DISCORD_TOKEN)
